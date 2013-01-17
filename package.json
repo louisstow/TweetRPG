@@ -1,0 +1,13 @@
+{
+  "name": "TweetRPG",
+  "description": "Play this RPG through Twitter",
+  "author": "Louis Stowasser",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "3.0.0",
+    "jade": "0.27.6",
+    "ff": "0.0.16",
+    "underscore": "1.4.3",
+    "mongoose": "3.5.4"
+  }
+}
