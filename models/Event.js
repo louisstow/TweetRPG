@@ -3,7 +3,8 @@
 //ensure all these stories are < 140 characters
 var Stories = {
 	encounter: [
-		""
+		"A thief in the night awakes you. You spring to action.",
+		
 	],
 
 	found: [
@@ -17,6 +18,7 @@ var Stories = {
 	]
 };
 
+//methods for the different types of events
 var Turns = {
 	encounter: function () {
 
@@ -30,6 +32,11 @@ var Turns = {
 
 	}
 }
+
 exports.roll = function () {
 	
+}
+
+exports.attack = function () {
+
 }
