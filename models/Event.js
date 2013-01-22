@@ -14,7 +14,7 @@ var Stories = {
 	],
 
 	lost: [
-
+		"You awake to find a thief has stolen"
 	]
 };
 
@@ -34,7 +34,12 @@ var Turns = {
 }
 
 exports.roll = function () {
-	
+	//pick a random turn
+	var types = Object.keys(Turns);
+	var turn = types[Math.random() * types.length | 0];
+	var story = Stories[turn][Math.random() * Stories[turn].length | 0];
+
+	console.log(turn, story);
 }
 
 exports.attack = function () {
