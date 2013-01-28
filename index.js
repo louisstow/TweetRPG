@@ -1,41 +1,34 @@
+var ff = require("ff");
 var twitter = require("./config/twitter");
 
-var Metadata = require("./models/Metadata");
-var metadata;
+var Player = require("./models/Player");
 
-//execute this function every minute
-function tick () {
-	
-	ff(function () {
-		//get the latest commands
-		twitter.getMentions(metadata.lastMentionID, this.slot());	
-		//check for new followers
-		twitter.getNewPlayers(metadata.nextFollowerCursor, this.slot());
-	}, function (mentions, followers) {
-		//save this id
-		metadata.lastMentionID = result.length && result[0].id_str;
+/**
+* 1. Receive mention
+* 2. Parse content
+*	a. roll: get random event
+* 3.
+*/
 
-		for (var i = 0; i < result.length; ++i) {
-			var tweet = result[i];	
-		}
+//stream mentions
+twitter.stream("statuses/filter", {track: "@questinatweet"}, function(stream) {
+	stream.on("data", function (data) {
+		console.log(data);
+		parse(data);
+	});
+});
 
-		metadata.nextFollowerCursor = result.next_cursor_str;
+function parse (data) {
+	if (!data.text || !data.user)
+		return console.error("Invalid data object");
 
-		metadata.save();
+	var tokens = data.text.split(" ");
+	var command = data[1]; //first token will be @questinatweet
+	var screenName = data.user.screen_name;
+
+	//find player with that screen name
+	var player = Player.find({handle: screenName}, function () {
+		
 	});
 }
 
-
-function init () {
-	Metadata.get(function (m) {
-		console.log("METADATA", m);
-		metadata = m;
-		tick();
-	});
-
-	//every minute, send a request
-	//setInterval(tick, 60 * 1000);
-	
-}
-
-init();

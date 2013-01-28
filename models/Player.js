@@ -1,3 +1,5 @@
+var ff = require("ff");
+
 var mongoose = require("../config/db");
 
 var playerSchema = new mongoose.Schema({
@@ -38,6 +40,12 @@ var playerSchema = new mongoose.Schema({
 	}
 });
 
-var Player = mongoose.model("Player", playerSchema);
+playerSchema.statics.findOrCreate = function (handle, next) {
+	var f = ff(this, function () {
+		this.find({handle: handle}, f.slot());
+	}, function (player) {
+		console.log(player);
+	});
+}
 
-module.exports = Player;
+module.exports = mongoose.model("Player", playerSchema);
