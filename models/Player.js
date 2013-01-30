@@ -1,17 +1,18 @@
 var ff = require("ff");
 
 var mongoose = require("../config/db");
+var Item = require("./Item");
 
 var playerSchema = new mongoose.Schema({
 	//unique twitter handle
 	handle: String,
 
 	//simple stats
-	health: Number,
-	level: Number,
+	health: { type: Number, default: 10 },
+	level: { type: Number, default: 1 },
 
 	//metadata
-	joined: Date,
+	joined: { type: Date, default: Date.now },
 
 	//inventory
 	weapon: {
@@ -41,11 +42,24 @@ var playerSchema = new mongoose.Schema({
 });
 
 playerSchema.statics.findOrCreate = function (handle, next) {
-	var f = ff(this, function () {
-		this.find({handle: handle}, f.slot());
+	var self = this;
+
+	ff(function () {
+		self.find({handle: handle}, this.slot());
 	}, function (player) {
-		console.log(player);
-	});
+		//nothing found, create a new player
+		if (!player.length) {
+			self.create({
+				handle: handle,
+				weapon: Item.items[0],
+				shield: Item.items[1],
+				armour: Item.items[2],
+				helmet: Item.items[3],
+				boots:  Item.items[4],
+			}, this.slot());
+		} else
+			this.pass(player[0]);
+	}).cb(next);
 }
 
 module.exports = mongoose.model("Player", playerSchema);
