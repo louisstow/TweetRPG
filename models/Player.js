@@ -10,6 +10,7 @@ var playerSchema = new mongoose.Schema({
 	//simple stats
 	health: { type: Number, default: 10 },
 	level: { type: Number, default: 1 },
+	xp: { type: Number, default: 1 },
 
 	//metadata
 	joined: { type: Date, default: Date.now },
@@ -49,13 +50,14 @@ playerSchema.statics.findOrCreate = function (handle, next) {
 	}, function (player) {
 		//nothing found, create a new player
 		if (!player.length) {
+			var starterItems = Item.items[1];
 			self.create({
 				handle: handle,
-				weapon: Item.items[0],
-				shield: Item.items[1],
-				armour: Item.items[2],
-				helmet: Item.items[3],
-				boots:  Item.items[4],
+				weapon: starterItems[0],
+				shield: starterItems[1],
+				armour: starterItems[2],
+				helmet: starterItems[3],
+				boots:  starterItems[4]
 			}, this.slot());
 		} else
 			this.pass(player[0]);

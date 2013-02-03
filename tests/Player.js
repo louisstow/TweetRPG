@@ -5,18 +5,24 @@ Player.findOrCreate("louisstow", function() {
 	console.log("FIND OR CREATE", arguments);
 });
 
-Battle.fight({
-	level: 2,
+console.log(Battle.fight({
+	handle: "louisstow",
+	level: 15,
 	weapon: 3,
 	shield: 3,
 	boots: 2,
 	armour: 1,
-	helmet: 4
+	helmet: 4,
+	xp: 300,
+	health: 10
 }, {
-	level: 1,
+	handle: "paxell",
+	level: 5,
 	weapon: 4,
 	shield: 2,
 	boots: 8,
 	armour: 1,
-	helmet: 2
-});
+	helmet: 2,
+	xp: 200,
+	health: 10
+}));

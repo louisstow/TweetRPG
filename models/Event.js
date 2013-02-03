@@ -1,6 +1,8 @@
+var util = require("util");
 var Item = require("./Item");
+var Battle = require("./Battle");
 
-var slots = [ "weapon", "shield", "armour", "helmet", "boots" ]
+var slots = [ "weapon", "shield", "armour", "helmet", "boots" ];
 
 //structure of all the event stories
 //ensure all these stories are < 120 characters
@@ -27,8 +29,25 @@ var Stories = {
 * @returns String - Tweet to send back to player.handle
 */
 var Turns = {
-	encounter: function () {
+	/**
+	* "You encounter a thief in the night. @louisstow -5HP +4LVL"
+	*/
+	encounter: function (player) {
+		var enemy = Battle.randomEnemy(player.level);
+		var battle = Battle.fight(player, enemy);
+		console.log(battle);
 
+		var playerResult = battle[player.handle];
+		var enemyResult  = battle.enemy;
+
+		var tweet = [
+			"@" + player.handle,
+			util.format("-%dHP", playerResult.damage),
+			util.format("+%dXP", playerResult.xpInc),
+			util.format("+%dLVL", playerResult.levelInc)
+		];
+
+		return tweet.join(" ");
 	},
 
 	found: function (player) {
