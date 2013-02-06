@@ -12,6 +12,15 @@ twitter.stream("statuses/filter", {track: "@questinatweet"}, function(stream) {
 	});
 });
 
+twitter.stream("user", function (stream) {
+	stream.on("data", function (data) {
+		console.log("\nuser", data);
+		//follow them back
+		if (data.event === "follower")
+			twitter.createFriendship(data.source.screen_name);
+	});
+});
+
 function parse (data) {
 	if (!data.text || !data.user)
 		return console.error("Invalid data object");
@@ -27,9 +36,13 @@ function parse (data) {
 		if ((/roll/i).test(command)) {
 			this.succeed(Event.roll(player));
 		} else if ((/attack|fight|battle/i).test(command)) {
+			//make sure the format is correct
+			if (tokens.length < 3 || tokens[2][0] !== "@")
+				return this.fail({error: "Invalid attack command"});
+
 			//find or create the opponent
 			this.pass(player);
-			Player.findOrCreate(tokens[2], this.slot())
+			Player.findOrCreate(tokens[2].substr(1), this.slot())
 		} else {
 			this.fail({error: "Invalid command"});
 		}

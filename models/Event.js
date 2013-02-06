@@ -2,7 +2,7 @@ var util = require("util");
 var Item = require("./Item");
 var Battle = require("./Battle");
 
-var slots = [ "weapon", "shield", "armour", "helmet", "boots" ];
+var slots = Battle.SLOTS;
 
 //structure of all the event stories
 //ensure all these stories are < 120 characters
@@ -29,7 +29,9 @@ var Stories = {
 * @returns String - Tweet to send back to player.handle
 */
 var Turns = {
-	
+	/**
+	* "A thief in the night awakes you. You spring to action."
+	*/
 	encounter: function (player) {
 		var enemy = Battle.randomEnemy(player.level);
 		var battle = Battle.fight(player, enemy);
@@ -41,9 +43,11 @@ var Turns = {
 		var tweet = [
 			"@" + player.handle,
 			util.format("-%dHP", playerResult.damage),
-			util.format("+%dXP", playerResult.xpInc),
-			util.format("+%dLVL", playerResult.levelInc)
+			util.format("+%dXP", playerResult.xpInc)
 		];
+
+		if (playerResult.levelInc)
+			tweet.push(util.format("+%dLVL", playerResult.levelInc));
 
 		return tweet.join(" ");
 	},
@@ -90,25 +94,35 @@ exports.roll = function (player) {
 	return tweet;
 }
 
+/**
+* @result "@louisstow [+8XP +2LVL] defeated @paxell and stole Wooden Sword (1)"
+*/
 exports.attack = function (player, enemy) {
 	var battle = Battle.fight(player, enemy);
+	console.log(battle)
 
-	var playerResult = battle[player.handle];
-	var enemyResult  = battle[enemy.handle];
+	//some synonyms to dramatasize the result
+	var beatSynonyms = ["defeated", "slayed", "destroyed", "killed", "murded", "beat"];
+	var stealSynonyms = ["stole", "pinched", "got away with", "won", "looted", "gained"];
 
+	//generate the stats for the winner
+	var stats = "[" + util.format("+%dXP", battle.xpInc);
+	if (battle.levelInc)
+		stats += " " + util.format("+%dLVL", battle.levelInc);
+	stats += "]";
+	
 	var tweet = [
-		"@" + player.handle,
-		util.format("-%dHP", playerResult.damage),
-		util.format("+%dXP", playerResult.xpInc),
-		util.format("+%dLVL", playerResult.levelInc),
-
-		"|",
-
-		"@" + enemy.handle,
-		util.format("-%dHP", enemyResult.damage),
-		util.format("+%dXP", enemyResult.xpInc),
-		util.format("+%dLVL", enemyResult.levelInc)
+		"@" + battle.winner,
+		stats,
+		beatSynonyms[beatSynonyms.length * Math.random() | 0],
+		"@" + battle.loser,
+		"and",
+		stealSynonyms[stealSynonyms.length * Math.random() | 0] + ":",
+		battle.prize.item.name || "nothing"
 	];
+
+	if (battle.prize.value)
+		tweet.push("(" + battle.prize.value + ")");
 
 	return tweet.join(" ");
 }

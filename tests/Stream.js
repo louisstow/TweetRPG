@@ -3,7 +3,7 @@ var index = require("../index");
 var sampleTweet = { created_at: 'Wed Feb 06 00:09:14 +0000 2013',
   id: 298946418150866940,
   id_str: '298946418150866944',
-  text: '@questinatweet Rollup',
+  text: '@questinatweet attack @csl_',
   source: 'web',
   truncated: false,
   in_reply_to_status_id: null,

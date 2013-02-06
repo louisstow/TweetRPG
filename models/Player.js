@@ -8,7 +8,6 @@ var playerSchema = new mongoose.Schema({
 	handle: String,
 
 	//simple stats
-	health: { type: Number, default: 10 },
 	level: { type: Number, default: 1 },
 	xp: { type: Number, default: 1 },
 
