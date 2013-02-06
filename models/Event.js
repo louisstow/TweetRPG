@@ -9,7 +9,7 @@ var slots = [ "weapon", "shield", "armour", "helmet", "boots" ];
 var Stories = {
 	encounter: [
 		"A thief in the night awakes you. You spring to action.",
-		
+		"Drunkly you accuse a man of "
 	],
 
 	found: [
@@ -29,9 +29,7 @@ var Stories = {
 * @returns String - Tweet to send back to player.handle
 */
 var Turns = {
-	/**
-	* "You encounter a thief in the night. @louisstow -5HP +4LVL"
-	*/
+	
 	encounter: function (player) {
 		var enemy = Battle.randomEnemy(player.level);
 		var battle = Battle.fight(player, enemy);
@@ -89,8 +87,28 @@ exports.roll = function (player) {
 	var tweet = story + " " + Turns[turn](player);
 
 	console.log(turn, tweet, tweet.length);
+	return tweet;
 }
 
-exports.attack = function () {
+exports.attack = function (player, enemy) {
+	var battle = Battle.fight(player, enemy);
 
+	var playerResult = battle[player.handle];
+	var enemyResult  = battle[enemy.handle];
+
+	var tweet = [
+		"@" + player.handle,
+		util.format("-%dHP", playerResult.damage),
+		util.format("+%dXP", playerResult.xpInc),
+		util.format("+%dLVL", playerResult.levelInc),
+
+		"|",
+
+		"@" + enemy.handle,
+		util.format("-%dHP", enemyResult.damage),
+		util.format("+%dXP", enemyResult.xpInc),
+		util.format("+%dLVL", enemyResult.levelInc)
+	];
+
+	return tweet.join(" ");
 }
