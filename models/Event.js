@@ -30,26 +30,28 @@ var Stories = {
 */
 var Turns = {
 	/**
-	* "A thief in the night awakes you. You spring to action."
+	* "A thief in the night awakes you. You spring to action. "
 	*/
 	encounter: function (player) {
 		var enemy = Battle.randomEnemy(player.level);
 		var battle = Battle.fight(player, enemy);
-		console.log(battle);
 
-		var playerResult = battle[player.handle];
-		var enemyResult  = battle.enemy;
+		//list of synonyms to spice up the response
+		var winSynonym  = ["Champion!", "You won", "You survived this time", "Too easy", "Tore through 'em like boiled ham"];
+		var loseSynonym = ["You lost", "Death", "Try again", "Find a better weapon next time", "You were overpowered"];
 
-		var tweet = [
-			"@" + player.handle,
-			util.format("-%dHP", playerResult.damage),
-			util.format("+%dXP", playerResult.xpInc)
-		];
+		var syn = battle.winner === player.handle ? winSynonym : loseSynonym;
+		var tweet = syn[syn.length * Math.random() | 0];
 
+		//stat informat at the end
+		var stat = " [" + util.format("+%dXP", playerResult.xpInc);
 		if (playerResult.levelInc)
-			tweet.push(util.format("+%dLVL", playerResult.levelInc));
+			stat += util.format(" +%dLVL", playerResult.levelInc));
+		stat += "]";
 
-		return tweet.join(" ");
+		tweet += stat;
+
+		return tweet;
 	},
 
 	found: function (player) {
@@ -88,7 +90,11 @@ exports.roll = function (player) {
 	var turn = types[Math.random() * types.length | 0];
 	var story = Stories[turn][Math.random() * Stories[turn].length | 0];
 
-	var tweet = story + " " + Turns[turn](player);
+	var tweet = [
+		"@" + player.handle,
+		story,
+		Turns[turn](player)
+	].join(" ");
 
 	console.log(turn, tweet, tweet.length);
 	return tweet;
