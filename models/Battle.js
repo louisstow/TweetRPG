@@ -1,3 +1,5 @@
+var Item = require("./Item");
+
 /**
 * Helper random functions
 */
@@ -15,20 +17,29 @@ exports.randomEnemy = function (level) {
 	var enemy = {
 		handle: "enemy",
 		level:  randIntRange(level - 1, level + 1),
-		weapon: { value: randIntRange(1, 10) },
-		armour: { value: randIntRange(1, 10) },
-		shield: { value: randIntRange(1, 10) },
-		helmet: { value: randIntRange(1, 10) },
-		boots:  { value: randIntRange(1, 10) }
+		weapon: { value: Item.randomValue() - 1 },
+		armour: { value: Item.randomValue() - 1 },
+		shield: { value: Item.randomValue() - 1 },
+		helmet: { value: Item.randomValue() - 1 },
+		boots:  { value: Item.randomValue() - 1 }
 	};
 
 	enemy.xp = Math.pow(enemy.level, 3);
 	return enemy;
 };
 
-exports.fight = function (p, e) { 
+exports.randomFight = function (p, level) {
+	var enemy = exports.randomEnemy(level);
+	console.log(enemy)
+	return exports.fight(p, enemy, false);
+}
+
+exports.fight = function (p, e, steal) {
 	//create a summary structure
 	var summary = {};
+
+	//default steal to `true`
+	steal = arguments.length < 3 ? true : steal;
 
 	//add a randomization weight to the overall score
 	var playerScore = randRange(0.6, 1) * p.level * (p.weapon.value + p.armour.value + p.shield.value + p.helmet.value + p.boots.value);
@@ -39,6 +50,8 @@ exports.fight = function (p, e) {
 	var result = (playerScore - enemyScore);
 	var winner, loser;
 	summary.result = result;
+	summary.playerScore = playerScore;
+	summary.enemyScore = enemyScore;
 
 	if (result < 0) {
 		//enemy wins
@@ -69,15 +82,17 @@ exports.fight = function (p, e) {
 	summary.xpInc = xpInc;
 
 	//steal an item from the loser
-	var randomSlot = exports.SLOTS[exports.SLOTS.length * Math.random() | 0];
-	
-	winner[randomSlot] = {
-		name:  loser[randomSlot].name,
-		value: loser[randomSlot].value
-	};
-	
-	loser[randomSlot] = { name: "", value: 0 };
-	summary.prize = { slot: randomSlot, item: winner[randomSlot] };
+	if (steal) {
+		var randomSlot = exports.SLOTS[exports.SLOTS.length * Math.random() | 0];
+		
+		winner[randomSlot] = {
+			name:  loser[randomSlot].name,
+			value: loser[randomSlot].value
+		};
+		
+		loser[randomSlot] = { name: "", value: 0 };
+		summary.prize = { slot: randomSlot, item: winner[randomSlot] };
+	}
 
 	//save the data if a mongo model
 	if (typeof e.save === "function") e.save();

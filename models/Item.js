@@ -76,7 +76,13 @@ for (var i = 1; i <= 10; ++i) {
 		weightedList.push(i);
 }
 
+//sort the weighted list randomly
+weightedList.sort(function () {
+	return Math.round(Math.random() * 2 - 1);
+});
+
 //generate a random value item to take
+//with weighting on the higher values
 function randomValue () {
 	return weightedList[Math.random() * weightedList.length | 0]
 }
@@ -86,3 +92,6 @@ exports.pickItem = function () {
 	var levelItems = exports.items[randomValue()];
 	return levelItems[levelItems.length * Math.random() | 0];
 }
+
+exports.randomValue = randomValue;
+exports.weightedList = weightedList;

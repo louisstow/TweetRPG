@@ -9,7 +9,7 @@ var slots = Battle.SLOTS;
 var Stories = {
 	encounter: [
 		"A thief in the night awakes you. You spring to action.",
-		"Drunkly you accuse a man of "
+		"Drunkly you accuse a man of"
 	],
 
 	found: [
@@ -19,7 +19,7 @@ var Stories = {
 	],
 
 	lost: [
-		"You awake to find a thief has stolen your"
+		"You awake to find a thief has stolen"
 	]
 };
 
@@ -33,8 +33,8 @@ var Turns = {
 	* "A thief in the night awakes you. You spring to action. "
 	*/
 	encounter: function (player) {
-		var enemy = Battle.randomEnemy(player.level);
-		var battle = Battle.fight(player, enemy);
+		var battle = Battle.randomFight(player, player.level);
+		console.log(battle);
 
 		//list of synonyms to spice up the response
 		var winSynonym  = ["Champion!", "You won", "You survived this time", "Too easy", "Tore through 'em like boiled ham"];
@@ -44,12 +44,14 @@ var Turns = {
 		var tweet = syn[syn.length * Math.random() | 0];
 
 		//stat informat at the end
-		var stat = " [" + util.format("+%dXP", playerResult.xpInc);
-		if (playerResult.levelInc)
-			stat += util.format(" +%dLVL", playerResult.levelInc));
+		var stat = " [" + util.format("+%dXP", battle.xpInc);
+		if (battle.levelInc)
+			stat += util.format(" +%dLVL", battle.levelInc);
 		stat += "]";
 
-		tweet += stat;
+		//only add the stats if we were the winner
+		if (battle.winner === player.handle)
+			tweet += stat;
 
 		return tweet;
 	},
@@ -67,7 +69,12 @@ var Turns = {
 			return found.name + " (" + found.value + ")";
 		}
 
-		return found.name + ". Not as good as my " + current.name;
+		return util.format(
+			"%s. Not as good as my %s (%d)",
+			found.name,
+			current.name,
+			current.value
+		);
 	},
 
 	lost: function (player) {
@@ -80,7 +87,7 @@ var Turns = {
 		player[slot].name = "";
 		player.save();
 
-		return old;
+		return old ? "your " + old : "nothing";
 	}
 }
 
@@ -107,8 +114,8 @@ exports.attack = function (player, enemy) {
 	var battle = Battle.fight(player, enemy);
 	console.log(battle)
 
-	//some synonyms to dramatasize the result
-	var beatSynonyms = ["defeated", "slayed", "destroyed", "killed", "murded", "beat"];
+	//some synonyms to dramatize the result
+	var beatSynonyms = ["defeated", "slayed", "destroyed", "killed", "murdered", "beat"];
 	var stealSynonyms = ["stole", "pinched", "got away with", "won", "looted", "gained"];
 
 	//generate the stats for the winner
