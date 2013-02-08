@@ -1,0 +1,107 @@
+@import url(http://fonts.googleapis.com/css?family=Averia+Libre:300,700);
+@import url(http://fonts.googleapis.com/css?family=Pirata+One);
+
+body {
+	font-family: 'Averia Libre', sans-serif;
+	font-weight: 300;
+	background: url('/grunge.png');
+}
+
+strong {
+	font-weight: 700;
+}
+
+h1, h2, h3 {
+	font-family: 'Pirata One';
+	font-weight: normal;
+}
+
+h1 {
+	text-align: center;
+	margin-top: 0;
+}
+
+th {
+	font-weight: 700;
+}
+
+a {
+	text-decoration: none;
+	color: #a60000;
+}
+
+h1 a {
+	color: #422;
+	font-size: 36px;
+	letter-spacing: 1px;
+}
+
+h2 {
+	margin-bottom: 5px;
+}
+
+img.avatar {
+	width: 25px;
+	height: 25px;
+	vertical-align: middle;
+	margin-right: 5px;
+	-webkit-filter: sepia(60%);
+	filter: sepia(60%);
+}
+
+#container {
+	width: 400px;
+	margin: auto;
+	background: rgba(229, 181, 121, 0.7);
+	padding: 10px;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+tr:nth-child(odd) {
+	background: rgba(209, 161, 101, 0.5);
+}
+
+td, th {
+	padding: 5px 10px;
+}
+
+table.leaderboard th {
+	text-align: left;
+}
+
+table.leaderboard tr:first-child {
+	background: transparent;
+	border-bottom: 2px solid #422;
+}
+
+table.stats th {
+	text-align: right;
+	width: 60px;
+	border-right: 1px solid rgb(109, 95, 52);
+}
+
+dt span.alias {
+	float: right;
+	color: #666;
+	font-style: italic;
+}
+
+dd {
+	margin-bottom: 5px;
+}
+
+var {
+	font-style: normal;
+	background: rgba(255, 244, 115, 0.5);
+}
+
+#footer {
+	margin: 10px -10px -10px -10px;
+	padding: 10px;
+	font-size: 14px;
+	background: rgba(63, 33, 0, 0.2);
+}

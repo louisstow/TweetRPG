@@ -1,0 +1,19 @@
+extends layout
+
+block content
+	if leaderboard.length
+		table.leaderboard
+			tr
+				th Player Name
+				th XP
+				th Level
+			each item in leaderboard
+				tr
+					td 
+						a(href='/user/#{item.handle}') 
+							img.avatar(src='http://api.twitter.com/1/users/profile_image?screen_name=#{item.handle}')
+							span #{item.handle}
+					td #{item.xp}
+					td #{item.level}
+	else
+		p.error No players

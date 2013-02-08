@@ -1,0 +1,62 @@
+extends layout
+
+block content
+	h2 
+		a(href='http://twitter.com/#{handle}') 
+			img.avatar(src='http://api.twitter.com/1/users/profile_image?screen_name=#{handle}')
+			span #{handle}
+
+	if profile
+		table.stats
+			tr
+				th XP
+				-var left = Math.pow(profile.level + 1, 3);
+				td #{profile.xp} / #{left}
+
+			tr
+				th Level
+				td #{profile.level}
+
+			tr
+				th Weapon
+				td 
+					if profile.weapon.value 
+						span #{profile.weapon.name} (#{profile.weapon.value})
+					else 
+						span -
+
+			tr
+				th Shield
+				td
+					if profile.shield.value 
+						span #{profile.shield.name} (#{profile.shield.value})
+					else 
+						span -
+
+			tr
+				th Armour
+				td 
+					if profile.armour.value 
+						span #{profile.armour.name} (#{profile.armour.value})
+					else 
+						span -
+
+			tr
+				th Helmet
+				td
+					if profile.helmet.value 
+						span #{profile.helmet.name} (#{profile.helmet.value})
+					else 
+						span -
+
+			tr
+				th Boots
+				td 
+					if profile.boots.value 
+						span #{profile.boots.name} (#{profile.boots.value})
+					else 
+						span -
+	else
+		-var url = 'http://twitter.com/home?status=' + encodeURIComponent("@" + handle + " follow @questinatweet to join the Twitter RPG!")
+		p #{handle} not found. 
+			a(href=url) Invite them on twitter.

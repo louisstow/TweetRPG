@@ -1,0 +1,17 @@
+!!!
+html
+	head
+		title Quest in a Tweet - #{title}
+		link(href='/style.css', rel='stylesheet')
+
+	body
+		#container
+			#header
+				h1: a(href='/') Quest in a Tweet
+				ul#nav
+					li: a(href='http://twitter.com/questinatweet') @questinatweet
+					li: a(href='/instructions') Learn how to play!
+			#main
+				block content
+
+			#footer Quest in a Tweet - by <a href='http://twitter.com/louisstow'>@louisstow</a>

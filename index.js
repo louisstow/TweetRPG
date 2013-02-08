@@ -1,6 +1,8 @@
 process.BOT = "questinatweet";
 
 var ff = require("ff");
+var express = require("express");
+
 var twitter = require("./config/twitter");
 
 var Player = require("./models/Player");
@@ -71,9 +73,9 @@ function parse (opts) {
 		Player.findOrCreate(screenName, this.slot());	
 	}, function (player) {
 		//if the command is roll
-		if ((/roll/i).test(command)) {
+		if ((/roll|hitme|/i).test(command)) {
 			this.succeed(Event.roll(player));
-		} else if ((/attack|fight|battle/i).test(command)) {
+		} else if ((/attack|fight|battle|kill|destroy/i).test(command)) {
 			//make sure the format is correct for attacking
 			//e.g. [@questinatweet, attack, @enemy]
 			if (tokens.length < 3 || tokens[2][0] !== "@")
@@ -94,5 +96,43 @@ function parse (opts) {
 	});
 }
 
-//export internal method for testing
-exports.parse = parse;
+//setup express
+var app = express();
+require('./config/server')(app);
+
+//home page
+app.get("/", function (req, res) {
+	ff(function () {
+		Player.find().sort('-xp').limit(20).exec(this.slot());
+	}, function (results) {
+		res.render("leaderboard", {
+			leaderboard: results,
+			title: "Leaderboard"
+		});
+	}).error(function (err) {
+		res.json(err);
+	});
+});
+
+//user page
+app.get("/user/:user", function (req, res) {
+	ff(function () {
+		Player.findOne({handle: req.params.user}, this.slot());
+	}, function (player) {
+		res.render("profile", {
+			profile: player,
+			handle: req.params.user,
+			title: req.params.user
+		});
+	}).error(function (err) {
+		res.json(err);
+	})
+});
+
+app.get("/instructions", function (req, res) {
+	res.render("instructions", {
+		title: "Instructions"
+	});
+});
+
+app.listen(5602);

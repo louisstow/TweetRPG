@@ -1,0 +1,25 @@
+extends layout
+
+block content
+	h2 Learn how to play!
+
+	p All commands are sent to <a href="http://twitter.com/questinatweet">@questinatweet</a> via mentions or direct messages on Twitter. Your character will be created from your twitter handle. The result of a command will be tweeted back through a mention.
+
+	p
+		strong Commands
+		dl
+			dt roll
+				span.alias alias: hitme
+			dd This will generate a random event for your character. Maybe you will encounter an enemy, maybe you will find the rarest of Swords-- you may even be robbed.
+
+			dt attack <var>@enemy</var>
+				span.alias alias: kill, fight, battle
+			dd You may attack any twitter user using <var>@</var> notation. The two characters will fight to the death taking into account level and items.
+
+		strong Examples
+		dl
+			dt Random event through mention
+			dd: var `@questinatweet roll`
+
+			dt Attack through direct message
+			dd: var `attack @louisstow`
