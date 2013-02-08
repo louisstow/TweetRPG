@@ -11,7 +11,26 @@ html
 				ul#nav
 					li: a(href='http://twitter.com/questinatweet') @questinatweet
 					li: a(href='/instructions') Learn how to play!
+					li
+						form(id='form')
+							span @
+							input(id='search', type='text', placeholder='handle')
+							button(type='submit') View
 			#main
 				block content
 
-			#footer Quest in a Tweet - by <a href='http://twitter.com/louisstow'>@louisstow</a>
+			#footer Quest in a Tweet - by <a href='http://twitter.com/louisstow'>@louisstow</a> | <a href='http://github.com/louisstow/TweetRPG'>View source on Github</a>
+
+		script
+			var s = document.getElementById("search");
+			var f = document.getElementById("form");
+			
+			f.onsubmit = function (e) {
+				s.value = s.value || "questinatweet";
+				if (s.value.charAt(0) === "@")
+					s.value = s.value.substr(1);
+					
+				window.location = "/user/" + s.value;
+				e.preventDefault();
+				return false;
+			}

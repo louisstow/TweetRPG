@@ -3,7 +3,7 @@ extends layout
 block content
 	h2 
 		a(href='http://twitter.com/#{handle}') 
-			img.avatar(src='http://api.twitter.com/1/users/profile_image?screen_name=#{handle}')
+			img.avatar.large(src='http://api.twitter.com/1/users/profile_image?screen_name=#{handle}')
 			span #{handle}
 
 	if profile
@@ -58,5 +58,5 @@ block content
 						span -
 	else
 		-var url = 'http://twitter.com/home?status=' + encodeURIComponent("@" + handle + " follow @questinatweet to join the Twitter RPG!")
-		p #{handle} not found. 
-			a(href=url) Invite them on twitter.
+		p #{handle} is not currently playing. 
+			a(href=url) Invite them to play on twitter.

@@ -12,13 +12,14 @@ strong {
 }
 
 h1, h2, h3 {
-	font-family: 'Pirata One';
+	font-family: 'Pirata One', Georgia, serif;
 	font-weight: normal;
 }
 
 h1 {
 	text-align: center;
 	margin-top: 0;
+	margin-bottom: 10px;
 }
 
 th {
@@ -47,6 +48,11 @@ img.avatar {
 	margin-right: 5px;
 	-webkit-filter: sepia(60%);
 	filter: sepia(60%);
+}
+
+img.avatar.large {
+	width: 45px;
+	height: 45px;
 }
 
 #container {
