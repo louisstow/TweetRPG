@@ -10,6 +10,7 @@ var playerSchema = new mongoose.Schema({
 	//simple stats
 	level: { type: Number, default: 1 },
 	xp: { type: Number, default: 1 },
+	lastAction: String,
 
 	//metadata
 	joined: { type: Date, default: Date.now },

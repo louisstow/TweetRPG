@@ -7,6 +7,8 @@ block content
 			span #{handle}
 
 	if profile
+		if profile.lastAction
+			p.lastAction #{profile.lastAction}
 		table.stats
 			tr
 				th XP

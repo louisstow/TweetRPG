@@ -107,6 +107,9 @@ exports.roll = function (player) {
 	].join(" ");
 
 	console.log(turn, tweet, tweet.length);
+	player.lastAction = tweet;
+	player.save();
+
 	return tweet;
 }
 
@@ -144,5 +147,12 @@ exports.attack = function (player, enemy) {
 	if (battle.prize.value)
 		tweet.push("(" + battle.prize.value + ")");
 
-	return tweet.join(" ");
+	tweet = tweet.join(" ")
+
+	player.lastAction = tweet;
+	enemy.lastAction = tweet;
+	player.save();
+	enemy.save();
+
+	return tweet;
 }
