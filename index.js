@@ -97,7 +97,7 @@ function parse (opts) {
 	}).success(function (tweet) {
 		console.log("After the event:", tweet);
 		if (action === "roll" && opts.directMessage) {
-			twitter.newDirectMessage(tweet, onError);
+			twitter.newDirectMessage(screenName, tweet, onError);
 		} else {
 			twitter.updateStatus(tweet, onError)
 		}
