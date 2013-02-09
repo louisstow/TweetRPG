@@ -73,7 +73,7 @@ function parse (opts) {
 		Player.findOrCreate(screenName, this.slot());	
 	}, function (player) {
 		//if the command is roll
-		if ((/roll|hitme|/i).test(command)) {
+		if ((/roll|hitme/i).test(command)) {
 			this.succeed(Event.roll(player));
 		} else if ((/attack|fight|battle|kill|destroy/i).test(command)) {
 			//make sure the format is correct for attacking
@@ -91,6 +91,7 @@ function parse (opts) {
 		this.succeed(Event.attack(player, enemy));
 	}).success(function (tweet) {
 		console.log("After the event:", tweet);
+		twitter.updateStatus(tweet);
 	}).error(function (err) {
 		console.error(err);
 	});

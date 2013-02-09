@@ -123,12 +123,16 @@ exports.attack = function (player, enemy) {
 	if (battle.levelInc)
 		stats += " " + util.format("+%dLVL", battle.levelInc);
 	stats += "]";
+
+	//generate the stats for the loser
+	var loserStats = util.format("[-%dXP]", battle.xpDec);
 	
 	var tweet = [
 		"@" + battle.winner,
 		stats,
 		beatSynonyms[beatSynonyms.length * Math.random() | 0],
 		"@" + battle.loser,
+		loserStats,
 		"and",
 		stealSynonyms[stealSynonyms.length * Math.random() | 0] + ":",
 		battle.prize.item.name || "nothing"

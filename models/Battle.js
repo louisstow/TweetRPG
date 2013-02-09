@@ -68,7 +68,9 @@ exports.fight = function (p, e, steal) {
 	}
 
 	//update all the player properties
-	loser.xp = Math.pow(loser.level, 3);
+	var newXP = Math.pow(loser.level, 3);
+	summary.xpDec = loser.xp - newXP;
+	loser.xp = newXP;
 	
 	//increase the xp and see if player gained a level
 	var xpInc = Math.pow(Math.max((loser.level - winner.level) + 1, 2), 3);
