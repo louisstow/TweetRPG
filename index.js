@@ -8,6 +8,8 @@ var twitter = require("./config/twitter");
 var Player = require("./models/Player");
 var Event  = require("./models/Event");
 
+var WELCOME = "Welcome to QuestInATweet. Reply with your commands or send me a DM. Read more: http://webtop.co:5602/instructions"
+
 /**
 * Stream any tweet that includes a mention to the 
 * twitter bot. Send this command to be parsed.
@@ -44,6 +46,11 @@ twitter.stream("user", function (stream) {
 				if (err) {
 					console.error("Error trying to follow", screenName);
 					console.error(err);
+				} else {
+					twitter.updateStatus(
+						"@" + screenName + " " + WELCOME,
+						onError
+					)
 				}
 			});
 		}

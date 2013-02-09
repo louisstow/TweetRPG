@@ -43,15 +43,18 @@ var Turns = {
 		var syn = battle.winner === player.handle ? winSynonym : loseSynonym;
 		var tweet = syn[syn.length * Math.random() | 0];
 
-		//stat informat at the end
-		var stat = " [" + util.format("+%dXP", battle.xpInc);
-		if (battle.levelInc)
-			stat += util.format(" +%dLVL", battle.levelInc);
-		stat += "]";
+		//show XP increase or decrease after battle
+		var stat;
+		if (battle.winner === player.handle) {
+			stat = util.format(" [+%dXP", battle.xpInc);
+			if (battle.levelInc)
+				stat += util.format(" +%dLVL", battle.levelInc);
+			stat += "]";
+		} else {
+			stat = util.format(" [-%dXP]", battle.xpDec);
+		}
 
-		//only add the stats if we were the winner
-		if (battle.winner === player.handle)
-			tweet += stat;
+		tweet += stat;
 
 		return tweet;
 	},
