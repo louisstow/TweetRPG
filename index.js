@@ -55,7 +55,8 @@ twitter.stream("user", function (stream) {
 
 			parse({
 				tokens: tokens,
-				screen_name: data.direct_message.sender_screen_name
+				screen_name: data.direct_message.sender_screen_name,
+				directMessage: true
 			});
 		}
 	});
@@ -69,12 +70,15 @@ function parse (opts) {
 	var command = tokens[1];
 	var screenName = opts.screen_name;
 
+	var action;
+
 	ff(function () {
 		Player.findOrCreate(screenName, this.slot());	
 	}, function (player) {
 		//if the command is roll
 		if ((/roll|hitme/i).test(command)) {
 			this.succeed(Event.roll(player));
+			action = "roll";
 		} else if ((/attack|fight|battle|kill|destroy/i).test(command)) {
 			//make sure the format is correct for attacking
 			//e.g. [@questinatweet, attack, @enemy]
@@ -83,7 +87,8 @@ function parse (opts) {
 
 			//find or create the opponent
 			this.pass(player);
-			Player.findOrCreate(tokens[2].substr(1), this.slot())
+			Player.findOrCreate(tokens[2].substr(1), this.slot());
+			action = "attack";
 		} else {
 			this.fail({error: "Invalid command"});
 		}
@@ -91,14 +96,20 @@ function parse (opts) {
 		this.succeed(Event.attack(player, enemy));
 	}).success(function (tweet) {
 		console.log("After the event:", tweet);
-		twitter.updateStatus(tweet, function (err) {
-			if (err) {
-				console.error(err);
-			}
-		});
+		if (action === "roll" && opts.directMessage) {
+			twitter.newDirectMessage(tweet, onError);
+		} else {
+			twitter.updateStatus(tweet, onError)
+		}
 	}).error(function (err) {
 		console.error(err);
 	});
+}
+
+function onError (err) {
+	if (err) {
+		console.error(err);
+	}
 }
 
 //setup express
