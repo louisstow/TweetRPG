@@ -91,7 +91,11 @@ function parse (opts) {
 		this.succeed(Event.attack(player, enemy));
 	}).success(function (tweet) {
 		console.log("After the event:", tweet);
-		twitter.updateStatus(tweet);
+		twitter.updateStatus(tweet, function (err) {
+			if (err) {
+				console.error(err);
+			}
+		});
 	}).error(function (err) {
 		console.error(err);
 	});
