@@ -9,14 +9,20 @@ block content
 		strong Commands
 		dl
 			dt roll
-				span.alias alias: hitme
+				span.alias alias: hitme, go, spin
 			dd This will generate a random event for your character. Maybe you will encounter an enemy, maybe you will find the rarest of Swords-- you may even be robbed.
 
 			dt attack <var>@enemy</var>
 				span.alias alias: kill, fight, battle
 			dd You may attack any twitter user using <var>@</var> notation. The two characters will fight to the death taking into account level and items. The winner will gain XP and take a random item from the loser, for better or worse. The loser will have their XP dropped to their current level.
 
-		strong Examples
+		strong `I've already said that` error message.
+		p Twitter has spam detection which means you can't tweet or DM the same thing twice in a row. For that reason you will have to alternate between the aliases as displayed above.
+
+		strong I want to add my own stories and/or items!
+		p Great! You can do that by adding forking the repo and adding stories to <var><a href="https://github.com/louisstow/TweetRPG/blob/master/models/Event.js">./models/Event.js</a></var>. You can add items to <var><a href="https://github.com/louisstow/TweetRPG/blob/master/models/Item.js">./models/Item.js</a></var>.
+
+		strong Example Commands
 		dl
 			dt Random event through mention
 			dd: var `@questinatweet roll`

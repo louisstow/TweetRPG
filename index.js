@@ -83,7 +83,7 @@ function parse (opts) {
 		Player.findOrCreate(screenName, this.slot());	
 	}, function (player) {
 		//if the command is roll
-		if ((/roll|hitme/i).test(command)) {
+		if ((/roll|hitme|go|spin/i).test(command)) {
 			this.succeed(Event.roll(player));
 			action = "roll";
 		} else if ((/attack|fight|battle|kill|destroy/i).test(command)) {

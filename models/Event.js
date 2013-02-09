@@ -9,7 +9,7 @@ var slots = Battle.SLOTS;
 var Stories = {
 	encounter: [
 		"A thief in the night awakes you. You spring to action.",
-		"Drunkly you accuse a man of"
+		"Drunkly you accuse a man of trickery."
 	],
 
 	found: [
@@ -19,7 +19,13 @@ var Stories = {
 	],
 
 	lost: [
-		"You awake to find a thief has stolen"
+		"You awake to find a thief has stolen",
+		"You trip and drop your",
+		"Darn kids catch you by suprise and snatch your",
+		"You lost a game of liars dice and must hand over",
+		"A giant will spare your life for",
+		"To cross the bridge the troll requires your",
+		""
 	]
 };
 
