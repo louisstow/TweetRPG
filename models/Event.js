@@ -9,13 +9,24 @@ var slots = Battle.SLOTS;
 var Stories = {
 	encounter: [
 		"A thief in the night awakes you. You spring to action.",
-		"Drunkly you accuse a man of trickery."
+		"Drunkly you accuse a man of trickery. He challenges you.",
+		"You overhear someone besmirch your family name. Time to teach them a lesson.",
+		"The darn kids are back to snatch another item. Not this time.",
+		"A wild snow golem stops you in your tracks.",
+		"It looks like louisstow has the highest XP. Take him down a notch.",
+		"Hiking through the forest a giant spider lands on your shoulder.",
+		"Rabid dogs chase you down a hill."
 	],
 
 	found: [
 		"Whilst trudging through the marshland you find",
 		"You see a strange figure in the woods. It notices you and fades into the mist before dropping",
-
+		"Something catches your attention in the dirt. You uncover",
+		"Congratulations! You win second place in a beauty contest. Collect",
+		"A prince from Nigerania leaves you an inheritance of",
+		"After slaying the mad king, the townsfolk repay you with",
+		"Amongst the wreckage of a century old ship you discover",
+		"You vanquish the evil witch of the west and absorb her"
 	],
 
 	lost: [
@@ -25,7 +36,7 @@ var Stories = {
 		"You lost a game of liars dice and must hand over",
 		"A giant will spare your life for",
 		"To cross the bridge the troll requires your",
-		""
+		"A giant fiery fox orbiting the earth eats your"
 	]
 };
 
