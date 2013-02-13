@@ -8,66 +8,82 @@ var twitter = require("./config/twitter");
 var Player = require("./models/Player");
 var Event  = require("./models/Event");
 
-var WELCOME = "Welcome to QuestInATweet. Reply with your commands or send me a DM. Read more: http://webtop.co:5602/instructions"
+var WELCOME = "Welcome to QuestInATweet. Reply with your commands or send me a DM. Read more: http://quest.webtop.co/instructions"
 
 /**
 * Stream any tweet that includes a mention to the 
 * twitter bot. Send this command to be parsed.
 */
-twitter.stream("statuses/filter", {track: "@" + process.BOT}, function(stream) {
-	stream.on("data", function (data) {
-		console.log(data);
-		var tokens = data.text.split(" ");
-		parse({
-			tokens: tokens,
-			screen_name: data.user.screen_name
+function connectTweetStream () {
+	twitter.stream("statuses/filter", {track: "@" + process.BOT}, function(stream) {
+		stream.on("data", function (data) {
+			console.log(data);
+			var tokens = data.text.split(" ");
+			parse({
+				tokens: tokens,
+				screen_name: data.user.screen_name
+			});
+		});
+
+		stream.on("destroy", function (response) {
+			console.error("***Tweet stream closed");
+			console.error(response);
+			setTimeout(connectTweetStream, 1000);
 		});
 	});
-});
+}
 
 /**
 * Stream user data. This includes new followers and
 * direct messages. Auto follow followers so they may
 * send commands through direct messages.
 */
-twitter.stream("user", function (stream) {
-	stream.on("data", function (data) {
-		//auto follow them back to allow DMs
-		console.log(data);
-		if (data.event === "follow") {
-			var screenName = data.source.screen_name;
+function connectUserStream () {
+	twitter.stream("user", function (stream) {
+		stream.on("data", function (data) {
+			//auto follow them back to allow DMs
+			console.log(data);
+			if (data.event === "follow") {
+				var screenName = data.source.screen_name;
 
-			//don't attempt to follow ourself
-			if (screenName === process.BOT)
-				return;
+				//don't attempt to follow ourself
+				if (screenName === process.BOT)
+					return;
 
-			console.log("New follower", screenName)
-			twitter.createFriendship(screenName, function (err) {
-				if (err) {
-					console.error("Error trying to follow", screenName);
-					console.error(err);
-				} else {
-					twitter.updateStatus(
-						"@" + screenName + " " + WELCOME,
-						onError
-					)
-				}
-			});
-		}
-		//allow commands from direct messages 
-		else if (data.direct_message) {
-			//create the token object as if from a mention
-			var tokens = data.direct_message.text.split(" ");
-			tokens.unshift("@" + process.BOT);
+				console.log("New follower", screenName)
+				twitter.createFriendship(screenName, function (err) {
+					if (err) {
+						console.error("Error trying to follow", screenName);
+						console.error(err);
+					} else {
+						twitter.updateStatus(
+							"@" + screenName + " " + WELCOME,
+							onError
+						)
+					}
+				});
+			}
+			//allow commands from direct messages 
+			else if (data.direct_message) {
+				//create the token object as if from a mention
+				var tokens = data.direct_message.text.split(" ");
+				tokens.unshift("@" + process.BOT);
 
-			parse({
-				tokens: tokens,
-				screen_name: data.direct_message.sender_screen_name,
-				directMessage: true
-			});
-		}
+				parse({
+					tokens: tokens,
+					screen_name: data.direct_message.sender_screen_name,
+					directMessage: true
+				});
+			}
+		});
+
+		stream.on("destroy", function (response) {
+			console.error("***User stream closed");
+			console.error(response);
+			setTimeout(connectUserStream, 1000);
+		});
 	});
-});
+}
 
 function parse (opts) {
 	if (!opts.tokens || !opts.screen_name)
@@ -97,7 +113,7 @@ function parse (opts) {
 			Player.findOrCreate(tokens[2].substr(1), this.slot());
 			action = "attack";
 		} else {
-			this.fail({error: "Invalid command"});
+			this.fail({error: "Invalid command", command: command});
 		}
 	}, function (player, enemy) {
 		this.succeed(Event.attack(player, enemy));
@@ -118,6 +134,10 @@ function onError (err) {
 		console.error(err);
 	}
 }
+
+//open the streams
+connectTweetStream();
+connectUserStream();
 
 //setup express
 var app = express();
