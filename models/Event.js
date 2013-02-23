@@ -31,12 +31,12 @@ var Stories = {
 
 	lost: [
 		"You awake to find a thief has stolen",
-		"You trip and drop your",
-		"Darn kids catch you by suprise and snatch your",
+		"You trip and drop",
+		"Darn kids catch you by suprise and snatch",
 		"You lost a game of liars dice and must hand over",
 		"A giant will spare your life for",
-		"To cross the bridge the troll requires your",
-		"A giant fiery fox orbiting the earth eats your"
+		"To cross the bridge the troll requires",
+		"A giant fiery fox orbiting the earth eats"
 	]
 };
 
