@@ -13,7 +13,6 @@ var Stories = {
 		"You overhear someone besmirch your family name. Time to teach them a lesson.",
 		"The darn kids are back to snatch another item. Not this time.",
 		"A wild snow golem stops you in your tracks.",
-		"It looks like louisstow has the highest XP. Take him down a notch.",
 		"Hiking through the forest a giant spider lands on your shoulder.",
 		"Rabid dogs chase you down a hill."
 	],
