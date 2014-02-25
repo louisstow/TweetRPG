@@ -16,7 +16,7 @@ exports.SLOTS = [ "weapon", "shield", "armour", "helmet", "boots" ];
 exports.randomEnemy = function (level) {
 	var enemy = {
 		handle: "enemy",
-		level:  randIntRange(level - 1, level + 1),
+		level:  randIntRange(level - 1, level),
 		weapon: { value: Item.randomValue() - 1 },
 		armour: { value: Item.randomValue() - 1 },
 		shield: { value: Item.randomValue() - 1 },
