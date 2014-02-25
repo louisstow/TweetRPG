@@ -122,8 +122,8 @@ function parse (opts) {
 	}).success(function (tweet) {
 		console.log("After the event:", tweet);
 		if (action === "roll" && opts.directMessage) {
-			tweet = tweet.replace(/\(/g, "%28");
-			tweet = tweet.replace(/\)/g, "%29");
+			tweet = tweet.replace(/\(/g, "{");
+			tweet = tweet.replace(/\)/g, "}");
 
 			twitter.newDirectMessage(screenName, tweet, function recon (err) {
 				if (err) console.log("GOT ERROR", err.statusCode)
