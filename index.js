@@ -19,7 +19,7 @@ function connectTweetStream () {
 		stream.on("data", function (data) {
 			console.log(data);
 			if (!data.text) return;
-			
+
 			var tokens = data.text.split(" ");
 			parse({
 				tokens: tokens,
@@ -122,12 +122,15 @@ function parse (opts) {
 	}).success(function (tweet) {
 		console.log("After the event:", tweet);
 		if (action === "roll" && opts.directMessage) {
+			tweet = tweet.replace(/\(/g, "%28");
+			tweet = tweet.replace(/\)/g, "%29");
+
 			twitter.newDirectMessage(screenName, tweet, function recon (err) {
 				if (err) console.log("GOT ERROR", err.statusCode)
 				if (err && err.statusCode == 401) {
-					setTimeout(function () {
-						twitter.newDirectMessage(screenName, tweet, recon);
-					}, 1000)
+					// setTimeout(function () {
+					// 	twitter.newDirectMessage(screenName, tweet, recon);
+					// }, 1000)
 				}
 			});
 		} else {
