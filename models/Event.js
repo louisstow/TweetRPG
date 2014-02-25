@@ -21,7 +21,7 @@ var Stories = {
 		"Whilst trudging through the marshland you find",
 		"You see a strange figure in the woods. It notices you and fades into the mist before dropping",
 		"Something catches your attention in the dirt. You uncover",
-		"Congratulations! You win second place in a beauty contest. Collect",
+		"Congratulations. You win second place in a beauty contest. Collect",
 		"A prince from Nigerania leaves you an inheritance of",
 		"After slaying the mad king, the townsfolk repay you with",
 		"Amongst the wreckage of a century old ship you discover",
@@ -53,7 +53,7 @@ var Turns = {
 		console.log(battle);
 
 		//list of synonyms to spice up the response
-		var winSynonym  = ["Champion!", "You won", "You survived this time", "Too easy", "Tore through em like boiled ham"];
+		var winSynonym  = ["Champion.", "You won", "You survived this time", "Too easy", "Tore through em like boiled ham"];
 		var loseSynonym = ["You lost", "Death", "Try again", "Find a better weapon next time", "You were overpowered"];
 
 		var syn = battle.winner === player.handle ? winSynonym : loseSynonym;

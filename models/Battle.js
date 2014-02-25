@@ -11,17 +11,21 @@ function randIntRange (min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function toss () {
+	return !!randIntRange(0, 1);
+}
+
 exports.SLOTS = [ "weapon", "shield", "armour", "helmet", "boots" ];
 
 exports.randomEnemy = function (level) {
 	var enemy = {
 		handle: "enemy",
 		level:  randIntRange(level - 1, level),
-		weapon: { value: Item.randomValue() - 1 },
-		armour: { value: Item.randomValue() - 1 },
-		shield: { value: Item.randomValue() - 1 },
-		helmet: { value: Item.randomValue() - 1 },
-		boots:  { value: Item.randomValue() - 1 }
+		weapon: { value: toss() ? Item.randomValue() : 0 },
+		armour: { value: toss() ? Item.randomValue() : 0 },
+		shield: { value: toss() ? Item.randomValue() : 0 },
+		helmet: { value: toss() ? Item.randomValue() : 0 },
+		boots:  { value: toss() ? Item.randomValue() : 0 }
 	};
 
 	enemy.xp = Math.pow(enemy.level, 3);
@@ -53,6 +57,7 @@ exports.fight = function (p, e, steal) {
 	summary.playerScore = playerScore;
 	summary.enemyScore = enemyScore;
 
+	console.log("SCORES", playerScore, enemyScore, e)
 	if (result < 0) {
 		//enemy wins
 		winner = e;
