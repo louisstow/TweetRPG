@@ -112,8 +112,15 @@ var Turns = {
 
 exports.roll = function (player) {
 	//pick a random turn
-	var types = Object.keys(Turns);
-	var turn = types[Math.random() * types.length | 0];
+	var roll = Math.random() * 4 | 0;
+	var turn = "encounter";
+
+	if (roll == 3) {
+		turn = "found"
+	} else if (roll == 2) {
+		turn = "lost"
+	}
+	
 	var story = Stories[turn][Math.random() * Stories[turn].length | 0];
 
 	var tweet = [
