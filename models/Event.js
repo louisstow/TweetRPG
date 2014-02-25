@@ -53,7 +53,7 @@ var Turns = {
 		console.log(battle);
 
 		//list of synonyms to spice up the response
-		var winSynonym  = ["Champion!", "You won", "You survived this time", "Too easy", "Tore through 'em like boiled ham"];
+		var winSynonym  = ["Champion!", "You won", "You survived this time", "Too easy", "Tore through em like boiled ham"];
 		var loseSynonym = ["You lost", "Death", "Try again", "Find a better weapon next time", "You were overpowered"];
 
 		var syn = battle.winner === player.handle ? winSynonym : loseSynonym;
@@ -120,7 +120,7 @@ exports.roll = function (player) {
 	} else if (roll == 2) {
 		turn = "lost"
 	}
-	
+
 	var story = Stories[turn][Math.random() * Stories[turn].length | 0];
 
 	var tweet = [
