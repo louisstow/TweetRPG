@@ -112,10 +112,10 @@ var Turns = {
 
 exports.roll = function (player) {
 	//pick a random turn
-	var roll = Math.random() * 4 | 0;
+	var roll = Math.random() * 5 | 0;
 	var turn = "encounter";
 
-	if (roll == 3) {
+	if (roll >= 3) {
 		turn = "found"
 	} else if (roll == 2) {
 		turn = "lost"
